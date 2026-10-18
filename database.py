@@ -1,10 +1,16 @@
 import mysql.connector
 from mysql.connector import Error
+
+
 class database:
+
     def __init__(self):
         self.conx=None
         self.connect_database()
+        self.query = self.conx.cursor(dict=True)
+
     def connect_database(self):
+
         try:
             self.conx = mysql.connector.connect(
                 host="localhost",
@@ -16,9 +22,19 @@ class database:
         except Error as e:
             print("Connect to Database Error")
 
-    def query_database(self,query_input:str):
-        query=self.conx.cursor(dictionary=True)
-        query.execute(query_input)
-        results=query.fetchall()
-        query.close()
+    def select_data(self,select_input:str):
+
+        self.query.execute(select_input)
+        results=self.query.fetchall()
+        self.query.close()
+
         return results
+    
+    def insert_data(self,insert_input:str):
+
+        self.query.execute(self.insert_data)
+        results=self.query.commit()
+        self.query.close()
+
+        return results
+
