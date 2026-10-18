@@ -7,7 +7,7 @@ class database:
     def __init__(self):
         self.conx=None
         self.connect_database()
-        self.query = self.conx.cursor(dict=True)
+        self.query = self.conx.cursor()
 
     def connect_database(self):
 
@@ -27,14 +27,16 @@ class database:
         self.query.execute(select_input)
         results=self.query.fetchall()
         self.query.close()
-
         return results
     
-    def insert_data(self,insert_input:str):
-
-        self.query.execute(self.insert_data)
-        results=self.query.commit()
+    def modify_data(self,insert_update_delete_input:str):
+        self.query.execute(insert_update_delete_input)
+        self.conx.commit()
         self.query.close()
+        rowcount= self.query.rowcount
+        print(rowcount)
+    
+db = database()
 
-        return results
-
+user=db.select_data("select * from tbldonor")
+print(user)
